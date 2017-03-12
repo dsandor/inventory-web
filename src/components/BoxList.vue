@@ -1,6 +1,9 @@
 <template>
   <div class="boxList">
-    <box />
+    <box v-bind:box="box" 
+      v-for="box in $store.state.boxes"
+      v-bind:key="box.id"
+    />
   </div>
 </template>
 
@@ -15,6 +18,9 @@ export default {
   data () {
     return {
     }
+  },
+  created() {
+    this.$store.dispatch('getBoxList');
   }
 }
 </script>

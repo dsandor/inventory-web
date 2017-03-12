@@ -6,17 +6,35 @@
       </md-card-media>
 
       <md-card-header>
-        <div class="md-title">Box Title</div>
-        <div class="md-subhead">Box number 5</div>
+         <md-layout md-gutter>
+          <md-layout md-flex="66">
+            <div class="md-title" v-if="!editMode">{{title}}</div>
+            <md-input-container v-if="editMode">
+              <label>box title</label>
+              <md-input placeholder="enter box title" v-bind:value="title" v-model="title"></md-input>
+            </md-input-container>
+          </md-layout>
+          <md-layout md-align="center">
+            #{{box.boxNumber}}
+          </md-layout>
+        </md-layout>
       </md-card-header>
 
       <md-card-content>
-        Contents of the box.
+        <md-layout md-gutter>
+          <md-layout md-flex="66">
+            {{box.description}}
+          </md-layout>
+          <md-layout md-align="center">
+            <img v-bind:src="box.thumbUrl" class="boxImage" />
+          </md-layout>
+        </md-layout>
       </md-card-content>
       
       <md-card-actions>
-        <md-button>Action</md-button>
-        <md-button>Action</md-button>
+        <div v-on:click="toggleEditMode"><md-button>Edit</md-button></div>
+        <div v-on:click="printLabel"><md-button>Print</md-button></div>
+        <div v-on:click="saveBox"><md-button>Save</md-button></div>
       </md-card-actions>
 
 
@@ -25,10 +43,38 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
+  props: ['box'],
   name: 'box',
   data () {
     return {
+      editMode: false
+    }
+  },
+  computed: {
+    title: {
+      get() {
+        return this.$props.box.title;
+      },
+
+      set(value) {
+        this.$store.commit('updateBoxTitle', {box: this.box, newValues: { title: value }});
+      }
+    }
+  },
+  methods: {
+    toggleEditMode: function() {
+      console.log('toggleEditMode');
+      this.editMode = !this.editMode;
+    },
+    printLabel: function() {
+      return;
+    },
+    saveBox: function() {
+      this.$store.dispatch('saveBox', this.box);
+      this.editMode = false;
     }
   }
 }
@@ -41,6 +87,9 @@ export default {
   width: 400px;
 }
 
+.boxImage {
+  height: 80px;
+}
 h1, h2 {
   font-weight: normal;
 }
