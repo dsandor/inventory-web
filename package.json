@@ -9,6 +9,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "dymojs": "^1.1.1",
     "lodash": "^4.17.4",
     "vue": "^2.2.2",
     "vue-material": "^0.7.1",

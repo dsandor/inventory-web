@@ -35,6 +35,7 @@
         <div v-on:click="toggleEditMode"><md-button>Edit</md-button></div>
         <div v-on:click="printLabel"><md-button>Print</md-button></div>
         <div v-on:click="saveBox"><md-button>Save</md-button></div>
+        <div v-on:click="deleteBox"><md-button>Delete</md-button></div>
       </md-card-actions>
 
 
@@ -44,6 +45,7 @@
 
 <script>
 import _ from 'lodash';
+import label from '../label';
 
 export default {
   props: ['box'],
@@ -70,11 +72,16 @@ export default {
       this.editMode = !this.editMode;
     },
     printLabel: function() {
+      label.printLabel(this.$props.box.title, this.$props.box.boxNumber, this.$props.box.description);
       return;
     },
     saveBox: function() {
       this.$store.dispatch('saveBox', this.box);
       this.editMode = false;
+    },
+    deleteBox: function() {
+      this.$store.dispatch('deleteBox', this.box);
+
     }
   }
 }

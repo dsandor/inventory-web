@@ -59,7 +59,19 @@ const actions = {
 		})
 		.catch((err) => {
 			console.error('error saving box:', err);
+		});
+	},
+
+	deleteBox(context, box) {
+		fetch(`http://invenapp.com/api/box/${box.id}`, { 
+			method: 'DELETE',
 		})
+		.then(() => {
+			console.log('Deleted box.');
+		})
+		.catch((err) => {
+			console.error('error deleting box:', err);
+		});
 	}
 };
 
